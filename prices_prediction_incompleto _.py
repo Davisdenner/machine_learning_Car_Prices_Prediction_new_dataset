@@ -76,3 +76,39 @@ df['carbody'].unique()
 
 df.head()
 
+df.columns
+
+# Configurando para int ou float as colunas que estão como dtype = 'object'
+
+df['fueltype']=df['fueltype'].replace({'gas':1,'diesel':0}).astype(int)
+df['doornumber']=df['doornumber'].replace({'two':2,'four':4}).astype(int)
+df['aspiration']=df['aspiration'].replace({'std':1,'turbo':0}).astype(int)
+df['drivewheel']=df['drivewheel'].replace({'fwd':1,'rwd':2,'4wd':3}).astype(int)
+
+df['enginelocation' ]=df['enginelocation'].replace({'front':1,'rear':0}).astype(int)
+df['cylindernumber']=df['cylindernumber'].replace({'two':2,'three':3,'four':4,'five':5,'six':6,'eight':8,'twelve':12}).astype(int)
+
+enginetype_dummies=pd.get_dummies(df['enginetype'],drop_first=True,prefix='enginetype')
+df=pd.concat([df,enginetype_dummies],axis=1)
+df.drop('enginetype',axis=1,inplace=True)
+
+carbody_dummies=pd.get_dummies(df['carbody'],drop_first=True,prefix='carbody')
+df=pd.concat([df,carbody_dummies],axis=1)
+df.drop('carbody',axis=1,inplace=True)
+
+fuelsystem_dummies=pd.get_dummies(df['fuelsystem'],drop_first=True,prefix='fuelsystem')
+df=pd.concat([df,fuelsystem_dummies],axis=1)
+df.drop('fuelsystem',axis=1,inplace=True)
+
+df.head()
+
+len(df.columns)
+
+df.info()
+
+#Grafíco de calor
+df_corr=df.select_dtypes(include=['int64','float64']).corr()
+plt.figure(figsize=(15,14))
+sns.heatmap(df_corr,annot=True,cmap='coolwarm', linewidths=0.01)
+plt.title('Correlação dos preços do carros')
+plt.show()
