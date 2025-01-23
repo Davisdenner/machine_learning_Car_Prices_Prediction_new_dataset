@@ -112,3 +112,107 @@ plt.figure(figsize=(15,14))
 sns.heatmap(df_corr,annot=True,cmap='coolwarm', linewidths=0.01)
 plt.title('Correlação dos preços do carros')
 plt.show()
+
+"""### Criando uma  variável indicadora para representar uma variável categórica (DUMMY)"""
+
+df_with_dummies = pd.get_dummies(df, drop_first=True)
+df_with_dummies.head()
+
+"""#Modelo de regressão linear
+
+
+"""
+
+# Definindo y e X
+x=df.drop(['price','car_brands'],axis=1)
+y=df['price']
+
+#Aplicando o split do y e X
+from sklearn.model_selection import train_test_split
+
+x_train, x_test, y_train, y_test = train_test_split(x,y, test_size=0.2, random_state=750)
+
+Model=LinearRegression()
+Model.fit(x_train, y_train)
+
+#Dados de treino para usar a fórmula
+df_train = pd.DataFrame(data= x_train)
+df_train['car_brands'] = df.loc[x_train.index, 'car_brands']
+df_train['price'] = y_train
+
+from statsmodels.formula.api import ols
+
+# Ajustando o modelo
+modelo_0 = ols('price ~ car_brands', data = df_train).fit()
+
+# visualizando os parametros
+modelo_0.params
+
+# o resumo do nosso modelo
+print(modelo_0.summary())
+
+# observando o R² (Coeficiente de determinação)
+modelo_0.rsquared
+
+# definindo o Y previsto
+
+df_test = pd.DataFrame(data=x_test)
+df_test['car_brands'] = df.loc[x_test.index, 'car_brands']
+
+y_predict = modelo_0.predict(df_test)
+
+# importando o r2_score
+from sklearn.metrics import r2_score
+
+# printando o r²
+print("R²: ", r2_score(y_test,y_predict))
+
+# importando a api do statsmodels
+import statsmodels.api as sm
+
+# adicionando o constante
+x_train = sm.add_constant(x_train)
+
+x_train.head()
+
+x_train.columns
+
+# Criando o modelo de regressão
+modelo_1 = sm.OLS(y_train,
+                  x_train[['curbweight','fueltype','enginesize','horsepower']]).fit()
+
+print("Modelo_0: ", modelo_0.rsquared)
+
+print("Modelo_1: ", modelo_1.rsquared)
+
+# Obtendo o R² da previsão
+
+x_test.columns
+
+modelo_0.params
+
+# Adicionando uma constante em X_test
+x_test = sm.add_constant(x_test)
+x_test['car_brands'] = df.loc[x_test.index, 'car_brands']
+predict_0 = modelo_0.predict(x_test)
+
+modelo_0.rsquared
+
+# Qual o R² do treino?
+print("R²: ", r2_score(y_test, predict_0))
+
+#Calculando a precificação de um carro
+modelo_1.params
+
+#Preço do carro por Marca
+
+price = pd.DataFrame({ 'const': [1],
+                      'car_brands': ['honda'],'fueltype':[1]},
+                      )
+
+modelo_0.predict(price['car_brands'])
+
+print(modelo_0.predict(price)[0])
+
+
+
