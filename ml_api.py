@@ -5,17 +5,17 @@ import pandas as pd
 
 app = Flask(__name__)
 
-# Carregar o modelo treinado
+# Carregando o modelo treinado
 with open('modelo.pkl', 'rb') as f:
     model = pickle.load(f)
 
-# Definir as features usadas no treinamento
+# Definindo as features usadas no treinamento
 FEATURES = [
-    'fueltype', 'doornumber', 'aspiration', 'drivewheel', 'enginelocation', 'cylindernumber',
-    'enginetype_dohcv', 'enginetype_l', 'enginetype_ohc', 'enginetype_ohcf', 'enginetype_ohcv',
-    'enginetype_rotor', 'carbody_hardtop', 'carbody_hatchback', 'carbody_sedan', 
-    'carbody_wagon', 'fuelsystem_2bbl', 'fuelsystem_4bbl', 'fuelsystem_idi', 
-    'fuelsystem_mfi', 'fuelsystem_spdi', 'fuelsystem_spfi'
+     "fueltype", "doornumber", "aspiration", "drivewheel", "enginelocation", "cylindernumber",
+    "enginetype_dohcv", "enginetype_l", "enginetype_ohc", "enginetype_ohcf", "enginetype_ohcv", "enginetype_rotor",
+    "carbody_hardtop", "carbody_hatchback", "carbody_sedan", "carbody_wagon",
+    "fuelsystem_2bbl", "fuelsystem_4bbl", "fuelsystem_idi", "fuelsystem_mfi", "fuelsystem_spdi", "fuelsystem_spfi"
+       
 ]
 
 @app.route('/predict', methods=['POST'])
@@ -34,3 +34,5 @@ def health():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+   
