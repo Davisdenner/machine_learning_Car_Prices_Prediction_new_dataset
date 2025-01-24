@@ -156,7 +156,7 @@ plt.ylabel('Valores')
 plt.legend()
 plt.grid(True)
 
-# Salvar o modelo treinado
+# Salvando o modelo treinado
 import pickle 
 with open('modelo.pkl', 'wb') as f:
     pickle.dump(rf_model, f)
