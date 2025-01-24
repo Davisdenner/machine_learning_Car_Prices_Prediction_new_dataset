@@ -150,11 +150,18 @@ plt.figure(figsize=(10, 6))
 plt.plot(y_test_sorted, label='True Values', marker='o', linestyle='-', color='blue')
 plt.plot(y_pred_sorted, label='Predicted Values', marker='x', linestyle='--', color='red')
 
-plt.title('Comparison of True vs Predicted Values')
-plt.xlabel('Samples')
-plt.ylabel('Values')
+plt.title('Comparação de valores reais vs previstos')
+plt.xlabel('Amostras')
+plt.ylabel('Valores')
 plt.legend()
 plt.grid(True)
+
+# Salvar o modelo treinado
+import pickle 
+with open('modelo.pkl', 'wb') as f:
+    pickle.dump(rf_model, f)
+
+print("Modelo treinado e salvo com sucesso!")
 
 
 
