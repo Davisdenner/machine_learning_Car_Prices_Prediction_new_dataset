@@ -115,6 +115,13 @@ plt.show()
 
 df_corr['price'].sort_values(ascending=False)
 
+df.columns
+
+data_with_dummies = pd.get_dummies(df, drop_first=True)
+data_with_dummies.head()
+
+
+
 """#Modelo de regressão linear
 
 
@@ -138,15 +145,26 @@ preprocessor = ColumnTransformer(
         ('cat', OneHotEncoder(sparse_output=False, handle_unknown='ignore'), categorical_features),
     ])
 
-x = preprocessor.fit_transform(df.drop(["price"], axis=1))
 y = df["price"]
+x = df.drop(["price"], axis=1)
 x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=.25 , random_state=750)
+
+x_train = preprocessor.fit_transform(x_train)
+x_test = preprocessor.transform(x_test)
+
+##Transformando e códificando as features
+feature_names = list(numerical_features)
+feature_names.extend(preprocessor.named_transformers_['cat'].get_feature_names_out(categorical_features))
+
+x_train = pd.DataFrame(x_train, columns=feature_names)
+x_test = pd.DataFrame(x_test, columns=feature_names)
 
 from sklearn.ensemble import RandomForestRegressor
 
 rf_model = RandomForestRegressor(n_estimators=100,random_state=750)
 rf_model.fit(x_train,y_train)
 
+from sklearn.metrics import r2_score
 y_pred_rf= rf_model.predict(x_test)
 mse_rf = mean_squared_error(y_test, y_pred_rf)
 r2_rf = r2_score(y_test, y_pred_rf)
@@ -166,14 +184,15 @@ plt.ylabel('Values')
 plt.legend()
 plt.grid(True)
 
-# Salvar o modelo treinado
+# Salvando o modelo treinado
 import pickle
 with open('modelo.pkl', 'wb') as f:
     pickle.dump(rf_model, f)
 
 print("Modelo treinado e salvo com sucesso!")
 
-
+print("Features usadas no modelo:", x.columns.tolist())
+print("Total de features:", len(x.columns))
 
 
 
