@@ -123,8 +123,6 @@ data_with_dummies.head()
 
 
 """#Modelo de regressão linear
-
-
 """
 
 from sklearn.preprocessing import OneHotEncoder

@@ -12,7 +12,7 @@ from sklearn.pipeline import Pipeline
 
 st.title("Predição do Preço dos Carros")
 
-# Carregar o dataset
+# Carregando o dataset
 @st.cache_data
 def load_data():
     df = pd.read_csv(r"C:\Users\Jamylle\Documents\07-Regressao-linear-preço-de-carros\dataset\CarPrice_Assignment.csv")
@@ -22,7 +22,7 @@ def load_data():
     # Apagando as colunas desnecessárias para a análise
     df.drop(['CarName', 'car_ID', 'symboling'], axis=1, inplace=True)
     
-    # Corrigir nomes de marcas de carros
+    # Corrigindo nomes de marcas de carros
     def fix_company_name(old_name, new_name):
         df['car_brands'].replace(old_name, new_name, inplace=True)
     
@@ -56,14 +56,14 @@ def load_data():
     
     return df
 
-# Carregar dados
+# Carregando dados
 df = load_data()
 
-# Dividir os dados em variáveis independentes e dependentes
+# Dividindo os dados em variáveis independentes e dependentes
 y = df["price"]
 x = df.drop(["price"], axis=1)
 
-# Dividir os dados em treino e teste
+# Dividindo os dados em treino e teste
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.25, random_state=42)
 
 # Criando um pré-processador para lidar com variáveis categóricas e numéricas
@@ -79,7 +79,7 @@ model_pipeline = Pipeline(steps=[
     ('regressor', RandomForestRegressor(n_estimators=100, random_state=42))
 ])
 
-# Ajuste do modelo
+# Ajustando o modelo
 model_pipeline.fit(x_train, y_train)
 
 # Função de predição
