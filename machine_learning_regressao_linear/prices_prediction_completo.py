@@ -78,7 +78,7 @@ df.head()
 
 df.columns
 
-# Configurando para int ou float as colunas que estão como dtype = 'object'
+#Configurando para int ou float as colunas que estão como dtype = 'object'
 
 df['fueltype']=df['fueltype'].replace({'gas':1,'diesel':0}).astype(int)
 df['doornumber']=df['doornumber'].replace({'two':2,'four':4}).astype(int)
