@@ -19,7 +19,7 @@ df=pd.read_csv('/content/CarPrice_Assignment.csv')
 
 df.head()
 
-#Renomeando a coluna de marca de carros
+# Renomeando a coluna de marca de carros
 df['car_brands']=df['CarName'].str.split(' ').str[0]
 df.insert(1,'car_brands',df.pop('car_brands'))
 df.head()
