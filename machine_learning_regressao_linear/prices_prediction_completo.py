@@ -17,7 +17,7 @@ from sklearn.metrics import mean_squared_error
 
 df=pd.read_csv('/content/CarPrice_Assignment.csv')
 
-df.head(
+df.head()
 
 # Renomeando a coluna de marca de carros
 df['car_brands']=df['CarName'].str.split(' ').str[0]
